@@ -300,19 +300,18 @@ class FBCompiler(sql.compiler.SQLCompiler):
         after the ``SELECT``...
         """
 
-        result = ""
-        if select._limit_clause is not None:
-            result += "FIRST %s " % self.process(select._limit_clause, **kw)
-        if select._offset_clause is not None:
-            result += "SKIP %s " % self.process(select._offset_clause, **kw)
-        if select._distinct:
-            result += "DISTINCT "
-        return result
+        return ""
 
     def limit_clause(self, select, **kw):
         """Already taken care of in the `get_select_precolumns` method."""
-
-        return ""
+        result = ""
+        if select._limit_clause is not None:
+            result += " ROWS %s " % self.process(select._limit_clause, **kw)
+        if select._offset_clause is not None:
+            result += " TO %s " % self.process(select._offset_clause, **kw)
+        if select._distinct:
+            result += "DISTINCT "
+        return result
 
     def returning_clause(self, stmt, returning_cols):
         columns = [

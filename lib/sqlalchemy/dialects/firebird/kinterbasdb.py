@@ -159,16 +159,7 @@ class FBDialect_kinterbasdb(FBDialect):
         return self._parse_version_info(version)
 
     def _parse_version_info(self, version):
-        m = match(
-            r'\w+-V(\d+)\.(\d+)\.(\d+)\.(\d+)( \w+ (\d+)\.(\d+))?', version)
-        if not m:
-            raise AssertionError(
-                "Could not determine version from string '%s'" % version)
-
-        if m.group(5) != None:
-            return tuple([int(x) for x in m.group(6, 7, 4)] + ['firebird'])
-        else:
-            return tuple([int(x) for x in m.group(1, 2, 3)] + ['interbase'])
+        return ''
 
     def is_disconnect(self, e, connection, cursor):
         if isinstance(e, (self.dbapi.OperationalError,
